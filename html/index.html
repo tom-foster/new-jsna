@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="3">
+    <meta http-equiv="cache" content="no-cache">
+    <title>JSNA Questionnaire</title>
+    <noscript>
+        &lt;div style="width: 1500px; height:1500px; background-color: white; z-index: 1; margin:auto;" &gt;
+                &lt;h1&gt;Javascript is disabled.&lt;/h1&gt;
+                &lt;p&gt;This tool requires javascript to be enabled.&lt;/p&gt;
+        &lt;/div&gt;
+    </noscript>
+    <!--Leaflet CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin="">
+    <!--Leaflet JS-->
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+    <!--proj4js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.3/proj4.js"></script>
+    <!--proj4leaflet.js the helper functions for proj4js-->
+    <script src="../js/proj4leaflet.js"></script>
+    <link rel="stylesheet" href="../css/jsna-mapping.css">
+</head>
+<body>
+    <div class="container">
+        <div class="phasing-box-inner">
+            <h1>JSNA Questionnaire</h1>
+        </div>
+
+        <div class="inner">
+            <!-- Selection boxes -->
+            <div id="selection-div">
+                <div class="selection-box">
+                    <label for="area">Select an area</label>
+                    <select name="area" id="area-select">
+                        <option value="no-value">Select an area to begin.</option>
+                    </select>
+                </div>
+                <div class="selection-box">
+                    <label for="age-group">School year</label>
+                    <select name="age-group" id="age-group-select" disabled>
+                        <option value="no-value">Select an area to begin.</option>
+                    </select>
+                </div>
+                <div class="selection-box">
+                    <label for="academic-year">Select an academic year</label>
+                    <select name="academic-year" id="academic-year-select" disabled>
+                        <option value="no-value">Select an area to begin.</option>
+                    </select>
+                </div>
+                <div class="selection-box">
+                    <label for="question">Select a question</label>
+                    <select name="question" id="question-select" disabled>
+                        <option value="no-value">Select an area to begin.</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Geojson text -->
+            <div id="geojson-text" class="text-container">
+                    <h2>Select a theme</h2>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h3>A cautionary note</h3>
+                    <p>This tool is still currently in development, that means you may notice issues.</p>
+                    <p>If you do, take a moment to send a message to 
+                        <a href="mailto:insight@warwickshire.gov.uk?subject=JSNA Mapping beta bug">insight@warwickshire.gov.uk</a>
+                    </p>
+                    <p>
+                        If you could include some details such as:
+                    </p>
+                    <ul>
+                        <li>what's the issue</li>
+                        <li>what you were doing</li>
+                        <li>what browser and what version</li>
+                        <li>what device</li>
+                    </ul>
+                    <p><strong>This tool is designed for desktop only currently, mobile version is on it's way</strong></p>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Internal tool so built for Chrome this will just block IE11, Edge and Firefox less than 52.0-->
+    <script>
+        if (window.navigator.userAgent.search('rv:11.0') != -1 || window.navigator.userAgent.search('MSIE') != -1 || window.navigator.userAgent.search('Edge') != -1) {
+            document.body.innerHTML = "<div style='padding: 20px'><h1 style='padding-left: 0px;'>No support available for Internet Explorer or Edge.</h1> \
+                                        <p>We're not supporting Internet Explorer, and Edge currently has no support at this time.</p>\
+                                        <p><a href='https://www.google.com/chrome/index.html'>Download Chrome</a></p>\
+                                        <p><a href='https://www.mozilla.org/en-GB/firefox/new/'>Download Firefox</a></p> \
+                                        <p>If your organisation doesn't support the other modern browsers, please contact us.</p> \
+                                        <p><a href='mailto:insight@warwickshire.gov.uk'>insight@warwickshire.gov.uk</a></p></div>";
+        }
+        else if (window.navigator.userAgent.search('Firefox/[0-4][0-9].0') != -1 || window.navigator.userAgent.search('Firefox/[0-5][0-2].0') != -1) {
+            document.body.innerHTML = "<div style='padding: 20px;'><h1 style='padding-left: 0px;'>We're using Javascript ES6 for Firefox</h1> \
+                                        <p>We would advise you to update your browser.</p> \
+                                        <p><a href='https://www.google.com/chrome/index.html'>Download Chrome</a></p>\
+                                        <p><a href='https://www.mozilla.org/en-GB/firefox/new/'>Download Firefox</a></p>\
+                                        <p>If your organisation doesn't support the other modern browsers, please contact us.</p> \
+                                        <p><a href='mailto:insight@warwickshire.gov.uk'>insight@warwickshire.gov.uk</a></p></div>";
+                                            
+        }
+    </script>
+</body>
+</html>
