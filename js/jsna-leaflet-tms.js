@@ -4,13 +4,13 @@ var blueSkyAttribution = "Aerial Photography: &copy; <a href='https://www.bluesk
 
 // add the layers
 // Note that the layers are being loaded as tms
-// var DarkGreyscaleLayer = L.tileLayer('http://maps.warwickshire.gov.uk/gs/gwc/service/tms/1.0.0/{layers}{format}/{z}/{x}/{y}.png8', {
-//     layers : 'z_OS_Vector_Backdrop_Dark',
-//     format : '@UK_OSGB@png8',
-//     continousWorld : true,
-//     tms: true,
-//     attribution: osAttribution, 
-// });
+var DarkGreyscaleLayer = L.tileLayer('http://maps.warwickshire.gov.uk/gs/gwc/service/tms/1.0.0/{layers}{format}/{z}/{x}/{y}.png8', {
+    layers : 'z_OS_Vector_Backdrop_Dark',
+    format : '@UK_OSGB@png8',
+    continousWorld : true,
+    tms: true,
+    attribution: osAttribution, 
+});
 
 var LightGreyscaleLayer = L.tileLayer('http://maps.warwickshire.gov.uk/gs/gwc/service/tms/1.0.0/{layers}{format}/{z}/{x}/{y}.png8', {
     layers : 'z_OS_Vector_Backdrop_Light',
@@ -42,39 +42,9 @@ var countyOverlay = L.tileLayer.wms('http://maps.warwickshire.gov.uk/gs/ows', {
     transparent : true,
 })
 
-// Add in health facilities
-/*  A + E Hospitals
-    GP Surgeries
-    Pharmacies*/
-
-var aeHospitalsOverlay = L.tileLayer.wms('http://maps.warwickshire.gov.uk/gs/ows', {
-    layers : 'Public_Data_DB:MED_AE_HOSPITALS_MIDS',
-    format : 'image/png',
-    transparent : true,
-});
-
-var gpSurgeriesOverlay = L.tileLayer.wms('http://maps.warwickshire.gov.uk/gs/ows', {
-    layers : 'Public_Data_DB:MED_GP_SURG_BRAN_SUBREG',
-    format : 'image/png',
-    transparent : true,
-});
-
-var pharmaciesOverlay = L.tileLayer.wms('http://maps.warwickshire.gov.uk/gs/ows', {
-    layers : 'Public_Data_DB:MED_PHARMACIES_WSHIRE',
-    format : 'image/png',
-    transparent : true,
-});
-
-// Childrens Centres - only currently active on 
-var childrenCentresOverlay = L.tileLayer.wms('http://maps.warwickshire.gov.uk/gs/ows', {
-    layers : 'Public_Data_DB:CH_CENTRES_WSHIRE',
-    format : 'image/png',
-    transparent : true,
-});
-
 // The basemaps
 var baseMaps = {
-    // "<span>Dark Greyscale Map</span>" : DarkGreyscaleLayer,
+    "<span>Dark Greyscale Map</span>" : DarkGreyscaleLayer,
     "<span>Light Greyscale Map</span>" : LightGreyscaleLayer,
     "<span>None</span>" : noLayer,
 };
@@ -86,13 +56,7 @@ var boundariesOverlays = {
     "<span>Ward Boundaries</span>" : wardOverlay,
     "<span>District and Borough Boundaries" : districtOverlay,
     // html added to start a line below it.
-    "<span>County Boundary</span><hr/><h2>Health</h2>" : countyOverlay,
-    "<span>Accident and Emergency Hospitals</span>": aeHospitalsOverlay,
-    "<span>GP Surgeries</span>" : gpSurgeriesOverlay,
-    // html added to the end of the line.
-    "<span>Pharmacies</span><hr/><h2>Children's Centres</h2>" : pharmaciesOverlay,
-    // html added to the end of the line.
-    "<span>Children's Centres</span>" : childrenCentresOverlay,
+    "<span>County Boundary</span>" : countyOverlay,
 };
 
 // using leaflet tms instead of wms

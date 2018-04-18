@@ -276,10 +276,42 @@ function onEachFeature(feature, layer) {
 //grab the select boxes
 // declare global fileName with defaults
 var fileName;
-var themeName = 'community-safety';
-var areaName = 'LSOA';
-var indicatorName = 'Accidental Dwelling Fire.geojson';
+// var themeName = 'JSNA';
+// var areaName = 'LSOA';
+// var indicatorName = 'Accidental Dwelling Fire.geojson';
+var areaName = '';
+var ageGroupName = '';
+var academicYearName = '';
+var questionName = '';
+var areaNames = ['JSNA', 'District'];
+//Let's try and rework this into a higher level function
+var allSelectBoxes = document.getElementsByTagName('select');
 
+//new 18/04/18
+// first selectBox triggers the events now.
+
+var firstSelectBox = allSelectBoxes[0];
+firstSelectBox.addEventListener('change', function(e) {
+    // this.value should be returned, basically the option value.
+    var firstSelectBoxOption = this.value;
+    if (firstSelectBox.classList.value == 'start-here') {
+        firstSelectBox.classList.remove('start-here');
+        firstSelectBox.options[0].remove();
+    }
+    console.log(this.value);
+    // when the area-select is selected change the area name selectbox to the correct dataset.
+    for (var i = 1; i < allSelectBoxes.length; i++) {
+        if (allSelectBoxes[i].hasAttribute('disabled')) {
+            allSelectBoxes[i].removeAttribute('disabled');
+        }
+    }
+    //This needs a new function I think.
+
+}, false);
+
+
+
+// This is the area that needs work now.
 var themeSelectbox = document.querySelector('select[name="theme-select"]');
 themeSelectbox.addEventListener('change', function(e) {
     themeName = this.value;
@@ -310,10 +342,9 @@ themeSelectbox.addEventListener('change', function(e) {
             indicatorSelectbox.appendChild(option);
         }
     }
-
-
-
 }, false);
+
+
 
 var areaSelectbox = document.querySelector('select[name="area-select"]');
 areaSelectbox.addEventListener('change', function(e) {

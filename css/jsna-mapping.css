@@ -129,6 +129,9 @@ select {
     max-width: 100%;
 }
 
+.start-here {
+    border: 2px solid var(--new-blue);
+}
 
 #map {
     max-width: 60%;
