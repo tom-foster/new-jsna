@@ -66,6 +66,14 @@ function populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions) {
     }
 }
 
+function removeDisabledAttribute(allSelectBoxes) {
+    for (var i = 0; i < allSelectBoxes.length; i++) {
+        if (allSelectBoxes[i].hasAttribute('disabled')) {
+            allSelectBoxes[i].removeAttribute('disabled');
+        }
+    }
+}
+
 //When the box with the start-here is selected we then want to load all the list items.
 var firstSelectBox = allSelectBoxes[0];
 firstSelectBox.addEventListener('change', function(e) {
@@ -75,6 +83,7 @@ firstSelectBox.addEventListener('change', function(e) {
         
 
         populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions);
+        removeDisabledAttribute(allSelectBoxes);
     }
 
 })
