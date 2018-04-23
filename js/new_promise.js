@@ -26,7 +26,7 @@ var ageGroupName = [
 ];
 var academicYearName = [
     {
-        "Year 2017\/2018" : '2017\/2018'
+        "Year 2017-2018" : '2017-2018'
     }
 ];
 var questionName = [
@@ -114,7 +114,7 @@ function removeInitialOptions(allSelectBoxes) {
     }
 }
 
-//When the box with the start-here is selected we then want to load all the list items.
+//When the box with the 'start-here' class is selected we then want to load all the list items.
 var firstSelectBox = allSelectBoxes[0];
 firstSelectBox.addEventListener('change', function(e) {
     // var firstSelectBox = this.value;
@@ -126,6 +126,17 @@ firstSelectBox.addEventListener('change', function(e) {
     }
 }, false);
 
-// selectBoxContainer.addEventListener('change', function(e) {
-    
-// })
+
+
+selectBoxContainer.addEventListener('change', function(e) {
+    var fileName = {};
+    var fileLocation = '../data/';
+    for (var i = 0; i < allSelectBoxes.length; i++) {
+        fileName['key-' + i] = allSelectBoxes[i].value;
+        fileLocation += allSelectBoxes[i].value + ' ';
+    }
+    fileLocation = fileLocation.slice(0, -1);
+    fileLocation += '.geojson';
+    console.log(Object.values(fileName));
+    console.log(fileLocation);
+})
