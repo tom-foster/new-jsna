@@ -18,14 +18,15 @@ console.log(allSelectBoxes);
 
 //Let's define some defaults for the lists I will assume either all Lists or all objects
 var areaName = ['JSNA', 'District'];
-var ageGroupName = [{
+var ageGroupName = [
+    {
     'Year 6' : 'Year 6 data',
     'Year 9' : 'Year 9 data',
-}];
+    }
+];
 var academicYearName = [
     {
-        '2017/2018' : '2017/2018',
-
+        "Year 2017\/2018" : '2017\/2018'
     }
 ];
 var questionName = [
@@ -41,8 +42,36 @@ var allSelectBoxOptions = [areaName, ageGroupName, academicYearName, questionNam
 
 
 /**
- * A function that deals with an array of objects or an Array of Objects or Object
+ * A function that deals with an array, or array of objects
+ * which is likely how the data will be presented.
  */
+function objectOrArrayOfObjects(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
+    if (Object.prototype.toString.call(allSelectBoxOptionsIndex) === '[object Object]') {
+        for (var i = 0; i < Object.keys(allSelectBoxOptionsIndex).length; i++) {
+            console.log(Object.keys(allSelectBoxesIndex).length);
+            var option = document.createElement('option');
+            option.text = Object.keys(allSelectBoxOptionsIndex)[i];
+            option.value = allSelectBoxOptionsIndex[Object.keys(allSelectBoxOptionsIndex)[i]];
+            allSelectBoxesIndex.appendChild(option);
+            // console.log('option text: ' + option.text + ' option value: ' + option.value);
+
+        }
+    }
+
+
+}
+
+/**
+ * Takes an Index, check if it is an array and if it is populates it.
+ */
+function arrayOfStrings(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
+    if (typeof(allSelectBoxOptionsIndex) === 'string') {
+        var option = document.createElement('option');
+        option.text = allSelectBoxOptionsIndex;
+        option.value = allSelectBoxOptionsIndex;
+        allSelectBoxesIndex.appendChild(option);
+    }
+}
 
 /**
  * This function populates all Select Box with Options, it takes a variable
@@ -56,16 +85,27 @@ function populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions) {
         console.log(allSelectBoxes[i]);
         var selectBox = allSelectBoxes[i];
         for (var j = 0; j < allSelectBoxOptions[i].length; j++) {
-            var option = document.createElement('option');
-            //Now need to write the funky function.
-            option.text = j;
-            option.value = j;
-            selectBox.appendChild(option);
-            console.log('Select box option '+ j + ' :' + allSelectBoxOptions[j]);
+            
+            // Now need to write the funky function.
+            console.log(allSelectBoxOptions[i][j]);
+            
+                // if (typeof(allSelectBoxOptions[i][j]) === 'string') {
+                //     var option = document.createElement('option');
+                //     option.text = allSelectBoxOptions[i][j];
+                //     option.value = allSelectBoxOptions[i][j];
+                //     selectBox.appendChild(option);
+                // }
+            
+            arrayOfStrings(allSelectBoxes[i], allSelectBoxOptions[i][j]);
+            objectOrArrayOfObjects(allSelectBoxes[i], allSelectBoxOptions[i][j]);
         }
     }
 }
 
+/**
+ * Removes Disabled Attribute From Select Box collection.
+ * 
+ * */ 
 function removeDisabledAttribute(allSelectBoxes) {
     for (var i = 0; i < allSelectBoxes.length; i++) {
         if (allSelectBoxes[i].hasAttribute('disabled')) {
@@ -80,6 +120,9 @@ firstSelectBox.addEventListener('change', function(e) {
     // var firstSelectBox = this.value;
     if (firstSelectBox.classList.value == 'start-here') {
         firstSelectBox.classList.remove('start-here');
+        while (firstSelectBox.firstChild) {
+            firstSelectBox.removeChild(firstSelectBox.firstChild);
+        }
         
 
         populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions);
