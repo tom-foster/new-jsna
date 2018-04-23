@@ -44,6 +44,7 @@ var allSelectBoxOptions = [areaName, ageGroupName, academicYearName, questionNam
 /**
  * A function that deals with an array, or array of objects
  * which is likely how the data will be presented.
+ * This is a helper function to populateAllSelectBoxOptions.
  */
 function objectOrArrayOfObjects(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
     if (Object.prototype.toString.call(allSelectBoxOptionsIndex) === '[object Object]') {
@@ -63,6 +64,8 @@ function objectOrArrayOfObjects(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
 
 /**
  * Takes an Index, check if it is an array and if it is populates it.
+ * Adds it to the select box.
+ * This is a helper function to populateAllSelectBoxOptions.
  */
 function arrayOfStrings(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
     if (typeof(allSelectBoxOptionsIndex) === 'string') {
@@ -80,22 +83,8 @@ function arrayOfStrings(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
  */
 function populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions) {
     for (var i = 0; i < allSelectBoxes.length; i++) {
-
-        // Add a 
-        console.log(allSelectBoxes[i]);
         var selectBox = allSelectBoxes[i];
         for (var j = 0; j < allSelectBoxOptions[i].length; j++) {
-            
-            // Now need to write the funky function.
-            console.log(allSelectBoxOptions[i][j]);
-            
-                // if (typeof(allSelectBoxOptions[i][j]) === 'string') {
-                //     var option = document.createElement('option');
-                //     option.text = allSelectBoxOptions[i][j];
-                //     option.value = allSelectBoxOptions[i][j];
-                //     selectBox.appendChild(option);
-                // }
-            
             arrayOfStrings(allSelectBoxes[i], allSelectBoxOptions[i][j]);
             objectOrArrayOfObjects(allSelectBoxes[i], allSelectBoxOptions[i][j]);
         }
@@ -104,12 +93,23 @@ function populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions) {
 
 /**
  * Removes Disabled Attribute From Select Box collection.
- * 
  * */ 
 function removeDisabledAttribute(allSelectBoxes) {
     for (var i = 0; i < allSelectBoxes.length; i++) {
         if (allSelectBoxes[i].hasAttribute('disabled')) {
             allSelectBoxes[i].removeAttribute('disabled');
+        }
+    }
+}
+
+/**
+ * When passed allSelectBoxes collection, removes all childNodes of each select box
+ * This is a help function for the starting Select Box.
+ */
+function removeInitialOptions(allSelectBoxes) {
+    for (var i = 0; i < allSelectBoxes.length; i++ ) {
+        while (allSelectBoxes[i].firstChild) {
+            allSelectBoxes[i].removeChild(allSelectBoxes[i].firstChild)
         }
     }
 }
@@ -120,13 +120,12 @@ firstSelectBox.addEventListener('change', function(e) {
     // var firstSelectBox = this.value;
     if (firstSelectBox.classList.value == 'start-here') {
         firstSelectBox.classList.remove('start-here');
-        while (firstSelectBox.firstChild) {
-            firstSelectBox.removeChild(firstSelectBox.firstChild);
-        }
-        
-
+        removeInitialOptions(allSelectBoxes);
         populateAllSelectBoxOptions(allSelectBoxes, allSelectBoxOptions);
         removeDisabledAttribute(allSelectBoxes);
     }
+}, false);
 
-})
+// selectBoxContainer.addEventListener('change', function(e) {
+    
+// })
