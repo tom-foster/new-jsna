@@ -20,8 +20,8 @@ console.log(allSelectBoxes);
 var areaName = ['JSNA', 'District'];
 var ageGroupName = [
     {
-    'Year 6' : 'Year 6 data',
-    'Year 9' : 'Year 9 data',
+    'Year 6' : 'Year 6',
+    'Year 9' : 'Year 9',
     }
 ];
 var academicYearName = [
@@ -39,7 +39,6 @@ var questionName = [
 // For the n length of select boxes, add a list of options that are the list of arrays or objects
 //that will populate the select box options in order.
 var allSelectBoxOptions = [areaName, ageGroupName, academicYearName, questionName];
-
 
 /**
  * A function that deals with an array, or array of objects
@@ -126,14 +125,16 @@ firstSelectBox.addEventListener('change', function(e) {
     }
 }, false);
 
-
-
 selectBoxContainer.addEventListener('change', function(e) {
     var fileName = {};
     var fileLocation = '../data/';
     for (var i = 0; i < allSelectBoxes.length; i++) {
         fileName['key-' + i] = allSelectBoxes[i].value;
-        fileLocation += allSelectBoxes[i].value + ' ';
+        // This needs a better function written for it.
+        // Basically remove the key that you don't want to join on.
+        if (!fileName['key-3']) {
+            fileLocation += allSelectBoxes[i].value + ' ';
+        }
     }
     fileLocation = fileLocation.slice(0, -1);
     fileLocation += '.geojson';
