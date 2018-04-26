@@ -138,7 +138,8 @@ This is where we will need to potentially rewrite this part.
          console.log('Worked?' + success);
         //  data will be set without var for now.
          data = success;
-         
+         //we want to return all features and the properties
+         // then we want to process them so that whatever nth possible stand
          geoJSONLayer = L.geoJSON(data).addTo(map);
 
 
