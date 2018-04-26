@@ -5,6 +5,8 @@
  * and adds options to n length of lists passed into it
  * 
  * We want to write a function for the length so that it will pass 
+ * through any select box
+ * 
  * 
  */
 
@@ -57,8 +59,6 @@ function objectOrArrayOfObjects(allSelectBoxesIndex, allSelectBoxOptionsIndex) {
 
         }
     }
-
-
 }
 
 /**
@@ -113,6 +113,45 @@ function removeInitialOptions(allSelectBoxes) {
     }
 }
 
+/* 
+
+This section is for the geojson layer so it loads the leaflet promise.
+
+This is where we will need to potentially rewrite this part.
+
+ */
+
+ var geoJSONLayer = L.geoJSON();
+
+ function geoJSONLeafletPromise(url) {
+     let geoJSONPromise = new Promise((resolve, reject) => {
+         const xhr = new XMLHttpRequest();
+         xhr.open('GET', url);
+        //  you need to return the responseType as json.
+        xhr.responseType = 'json';
+        xhr.onload = () => resolve(xhr.response);
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send();
+     });
+
+     geoJSONPromise.then(success => {
+         console.log('Worked?' + success);
+        //  data will be set without var for now.
+         data = success;
+         
+         geoJSONLayer = L.geoJSON(data).addTo(map);
+
+
+     }).catch(
+         (rejection) => {
+             var geoJSONText = document.getElementById('geojson-text');
+             geoJSONText.innerHTML = '<h2>Error!</h2> \
+                                        <code>' + rejection + '</code>';
+            console.log(rejection);
+         }
+     )
+ }
+
 //When the box with the 'start-here' class is selected we then want to load all the list items.
 var firstSelectBox = allSelectBoxes[0];
 firstSelectBox.addEventListener('change', function(e) {
@@ -139,5 +178,9 @@ selectBoxContainer.addEventListener('change', function(e) {
     fileLocation = fileLocation.slice(0, -1);
     fileLocation += '.geojson';
     console.log(Object.values(fileName));
+    // Insert the geojson file here.
     console.log(fileLocation);
-})
+    // Required for the geojson
+    map.removeLayer(geoJSONLayer);
+    geoJSONLeafletPromise(fileLocation);
+}, false);
