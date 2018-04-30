@@ -33,8 +33,7 @@ var academicYearName = [
 ];
 var questionName = [
     {
-        'I am being bullied' : 'Bullying data',
-        'Test' : 'Test data',
+        'hello': 'test',
     }
 ];
 
@@ -103,7 +102,7 @@ function removeDisabledAttribute(allSelectBoxes) {
 
 /**
  * When passed allSelectBoxes collection, removes all childNodes of each select box
- * This is a help function for the starting Select Box.
+ * This is a helper function for the starting Select Box, and other selectBoxrelated ones!
  */
 function removeInitialOptions(allSelectBoxes) {
     for (var i = 0; i < allSelectBoxes.length; i++ ) {
@@ -114,16 +113,19 @@ function removeInitialOptions(allSelectBoxes) {
 }
 
 /* 
-
 This section is for the geojson layer so it loads the leaflet promise.
-
 This is where we will need to potentially rewrite this part.
 
+We'll come back to this function, since it's loading at the moment.
+
+That's all we need.
+
+Data variable still set as a global
  */
 
  var geoJSONLayer = L.geoJSON();
 
- function geoJSONLeafletPromise(url) {
+ function geoJSONLeafletPromise(url, selectBoxForProperties) {
      let geoJSONPromise = new Promise((resolve, reject) => {
          const xhr = new XMLHttpRequest();
          xhr.open('GET', url);
@@ -141,6 +143,8 @@ This is where we will need to potentially rewrite this part.
          //we want to return all features and the properties
          // then we want to process them so that whatever nth possible stand
          geoJSONLayer = L.geoJSON(data).addTo(map);
+         var newOptions = loadGeoJSONPropertiesKeys(data);
+         populateSelectBox(selectBoxForProperties, newOptions);
 
 
      }).catch(
@@ -152,6 +156,40 @@ This is where we will need to potentially rewrite this part.
          }
      )
  }
+
+/**
+Extract all the properties from a loaded geojson.
+This will make it easier to load a select box.
+*/
+function loadGeoJSONPropertiesKeys(data) {
+    var newOptions = Object.keys(data.features[0].properties);
+    return newOptions;
+}
+
+
+/**
+ * Populate a single select box
+ */
+function populateSelectBox(selectBox, options) {
+    removeSingleSelectBoxOptions(selectBox);
+    for (var i = 0; i < options.length; i++) {
+        var option = document.createElement('option');
+        option.text = options[i];
+        option.valuie = options[i];
+        selectBox.appendChild(option);
+    }
+}
+/**
+ * 
+ * Helper function for populateSelectBox
+ * 
+ */
+function removeSingleSelectBoxOptions(selectBox) {
+    while (selectBox.firstChild) {
+        selectBox.removeChild(selectBox.firstChild);
+    }
+}
+
 
 //When the box with the 'start-here' class is selected we then want to load all the list items.
 var firstSelectBox = allSelectBoxes[0];
@@ -183,5 +221,9 @@ selectBoxContainer.addEventListener('change', function(e) {
     console.log(fileLocation);
     // Required for the geojson
     map.removeLayer(geoJSONLayer);
-    geoJSONLeafletPromise(fileLocation);
+    // This will need to be moved off of the current EventListener in it's current form.
+    // It is currently constantly removing the options in the drop down.
+    // but is close to a correct solution.
+    geoJSONLeafletPromise(fileLocation, allSelectBoxes[3]);
 }, false);
+
